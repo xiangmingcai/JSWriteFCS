@@ -6,29 +6,31 @@
 
 //import FCS from '../node_modules/fcs/fcs.js';
 const FCS = require('./packages/fcs/fcs.js');
-
 /**
- * 构造函数
- * @param {Object} header - FCS文件头信息
- * @param {Object} text - FCS文件文本信息
- * @param {ArrayBuffer} data - FCS文件数据
- * @param {Object} analysis - FCS文件分析信息
- * @param {Object} options - 配置选项
- * @constructor
+ * JSWriteFCS 类，用于写入 FCS 文件
  */
-function JSWriteFCS(header = {},text = {},data = null,analysis = {},options = {}) {
+class JSWriteFCS {
+  /**
+   * 构造函数
+   * @param {Object} header - FCS文件头信息
+   * @param {Object} text - FCS文件文本信息
+   * @param {ArrayBuffer} data - FCS文件数据
+   * @param {Object} analysis - FCS文件分析信息
+   * @param {Object} options - 配置选项
+   */
+  constructor(header = {},text = {},data = null,analysis = {},options = {}) {
     this.header = header;
     this.text = text;
     this.analysis = analysis;// no analysis will be saved
     this.data = data;
     this.options = options;
-}
+  }
 
-/**
- * 写入 FCS 文件的方法
- * @param {String} fileName - 文件名
- */
-JSWriteFCS.writeFCS = function(fileName) {
+  /**
+   * 写入 FCS 文件的方法
+   * @param {String} fileName - 文件名
+   */
+  writeFCS(fileName) {
     //prepare dataBlob and totalDataLength
     let dataBlob = convert2DArrayToBinary(this.data)
     let totalDataLength = dataBlob.byteLength
@@ -59,21 +61,21 @@ JSWriteFCS.writeFCS = function(fileName) {
     //const writable = await newFileHandle.createWritable();
     //await writable.write(fileBlob);
     //await writable.close();
-}
+  }
 
 
-/**
- * 读取 FCS 文件的方法
- * @param {fcs} object - FCS object from MorganConrad/fcs 
- */
-JSWriteFCS.readFCS = function(fcs) {
+  /**
+   * 读取 FCS 文件的方法
+   * @param {fcs} object - FCS object from MorganConrad/fcs 
+   */
+  readFCS(fcs) {
     this.header = fcs.get('header');
     this.text = fcs.get('text');
     this.analysis = fcs.get('analysis');
     this.data = fcs.get('data');
-}
+  }
   
-
+}
 
 function convert2DArrayToBinary(data) {
     // 创建一个缓冲区数组来存储二进制数据
@@ -247,3 +249,4 @@ function formatHeader(header,totaltextLength,totalDataLength){
     return headerBlob;
 }
 
+module.exports = JSWriteFCS;
