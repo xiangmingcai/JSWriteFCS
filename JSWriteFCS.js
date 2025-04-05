@@ -5,7 +5,7 @@
  */
 
 //import FCS from '../node_modules/fcs/fcs.js';
-//const FCS = require('../node_modules/fcs/fcs.js');
+const FCS = require('./node_modules/fcs/fcs.js');
 /**
  * JSWriteFCS 类，用于写入 FCS 文件
  */
