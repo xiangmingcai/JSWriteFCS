@@ -30,7 +30,7 @@ class JSWriteFCS {
    * 写入 FCS 文件的方法
    * @param {String} fileName - 文件名
    */
-  writeFCS(fileName) {
+  async writeFCS(fileName,savefolderHandle=null) {
     //prepare dataBlob and totalDataLength
     let dataBlob = convert2DArrayToBinary(this.data)
     let totalDataLength = dataBlob.byteLength
@@ -50,17 +50,20 @@ class JSWriteFCS {
 
     let fileBlob = new Blob([headerBlob, textBlob, dataBlob], { type: 'application/octet-stream' });
 
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(fileBlob);
-    link.download = fileName;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-
-    //const newFileHandle = await SavedirectoryHandle.getFileHandle(fileName, { create: true });
-    //const writable = await newFileHandle.createWritable();
-    //await writable.write(fileBlob);
-    //await writable.close();
+    if (savefolderHandle==null){
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(fileBlob);
+        link.download = fileName;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }else{
+        const newFileHandle = await savefolderHandle.getFileHandle(fileName, { create: true });
+        const writable = await newFileHandle.createWritable();
+        await writable.write(fileBlob);
+        await writable.close();
+    }
+    
   }
 
 
