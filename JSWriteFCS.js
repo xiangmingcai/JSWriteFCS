@@ -4,7 +4,7 @@
  * This software is released under the MIT license  (http://opensource.org/licenses/MIT)
  */
 
-import FCS from '../node_modules/fcs/fcs.js';
+//import FCS from '../node_modules/fcs/fcs.js';
 //const FCS = require('../node_modules/fcs/fcs.js');
 /**
  * JSWriteFCS 类，用于写入 FCS 文件
