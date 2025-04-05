@@ -29,6 +29,7 @@ class JSWriteFCS {
   /**
    * 写入 FCS 文件的方法
    * @param {String} fileName - 文件名
+   * @param {object} savefolderHandle - Handle of folder to save
    */
   async writeFCS(fileName,savefolderHandle=null) {
     //prepare dataBlob and totalDataLength
