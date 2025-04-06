@@ -59,9 +59,23 @@ class JSWriteFCS {
         link.click();
         document.body.removeChild(link);
     }else{
+        const chunkSize = 1024 * 1024 * 10; // 10MB
+        const totalChunks = Math.ceil(fileBlob.size / chunkSize);
+
+
         const newFileHandle = await savefolderHandle.getFileHandle(fileName, { create: true });
         const writable = await newFileHandle.createWritable();
-        await writable.write(fileBlob);
+
+        for (let i = 0; i < totalChunks; i++) {
+            const start = i * chunkSize;
+            const end = Math.min(start + chunkSize, fileBlob.size);
+            const chunk = fileBlob.slice(start, end);
+
+            await writable.write({ type: 'write', position: start, data: chunk });
+        }
+
+        
+        //await writable.write(fileBlob);
         await writable.close();
     }
     
